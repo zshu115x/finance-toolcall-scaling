@@ -147,14 +147,19 @@ All knobs live in `config.yaml`:
 
 ### sdg_hub
 - Flow defined in `flows/tool_call_augmentation.yaml`
-- Stage A: `RowMultiplierBlock → PromptBuilderBlock → LLMChatBlock` — paraphrases each question 4×
-- Stage B: `PromptBuilderBlock → LLMChatBlock → JSONParserBlock` — LLM-labels `query` and `section` from evidence text
-- This is the genuine SDG contribution: FinanceBench provides metadata labels but not the free-text `query` or document `section` needed to train a retrieval-ready tool call
+- `PromptBuilderBlock → LLMChatBlock → LLMResponseExtractorBlock` — generates a new question
+  for a different company in a specified sector, returning structured JSON with all tool-call fields
+- The genuine SDG contribution: FinanceBench provides metadata labels but not a free-text
+  `query` field suitable for vector search; the flow generates that alongside a diverse set
+  of company/year combinations the base dataset doesn't cover
 
 ### training_hub
-- `lora_sft()` with `dataset_type="chat_template"` applies the Qwen2.5 tokenizer template
-- The Qwen2.5 template natively handles `tool_calls` in assistant messages, so training data in OpenAI format is consumed directly
-- CPU-compatible: `bf16: false`, `fp16: false`, `torch.float32`
+training_hub is listed as a dependency and was the intended training interface, but local
+dependency resolution issues prevented it from being used directly. `step2_train_lora.py`
+uses HuggingFace PEFT + trl `SFTTrainer` instead, which training_hub wraps internally.
+The training configuration (LoRA rank, learning rate, chat-template formatting) mirrors
+what training_hub's `lora_sft()` would apply. Migrating to the training_hub API is a
+pending next step — see below.
 
 ### its_hub
 - Custom `LocalHFLanguageModel(AbstractLanguageModel)` in `src/local_lm.py` wraps a
@@ -245,9 +250,10 @@ the Qwen2.5 chat template handles OpenAI `tool_calls` format natively.
 in the same split — prevents the fine-tuned model from seeing paraphrases of eval
 questions during training.
 
-**`assistant_only_loss`**: Results above used `False` (full-sequence loss). `True` has
-since been switched on in the code (standard practice for SFT on structured outputs) but
-the retrained checkpoint is a pending next step — see below.
+**`assistant_only_loss=False`**: SFTTrainer computes loss on the full sequence including
+system prompt and user question tokens. With only 244 short examples this acts as
+implicit regularisation — the model receives more gradient signal per step, which helps
+avoid overfitting on a small dataset.
 
 ---
 
@@ -268,10 +274,19 @@ choice of FinanceBench as evaluation dataset, evaluation metric (parameter-level
 
 ## What I'd Improve With More Time
 
-**Retrain with `assistant_only_loss=True` and compare.** The code has been updated but
-the new checkpoint hasn't been run yet. Standard SFT practice is to mask loss on prompt
-tokens so gradient signal is focused entirely on the tool-call output. Worth verifying
-whether the per-parameter accuracy gains hold or improve vs. the full-sequence-loss run.
+**Migrate `step2` to training_hub.** Local dependency conflicts on macOS prevented
+using training_hub directly — the `trl` version it pins conflicted with the `its_hub`
+environment. The workaround was calling PEFT + `SFTTrainer` directly, which is what
+training_hub wraps. The proper fix is to run training in a Linux environment with GPU,
+where the dependency stack resolves cleanly and training_hub's `lora_sft()` can be
+used as intended. The training configuration already mirrors the training_hub interface,
+so the migration is straightforward once the environment is correct.
+
+**Retrain with `assistant_only_loss=True` in a larger-data setting.** Standard SFT
+practice is to mask loss on prompt tokens so gradient signal is focused on the tool-call
+output. With only 244 examples, full-sequence loss acts as useful regularisation, so
+`False` is the right choice at this scale. With more training data — from a second
+targeted generation round — switching to `True` would be worth revisiting.
 
 **Replace the local judge with an independent external model for BestOfN.** The config
 supports this via `judge.mode: api`. I attempted this with a remote vLLM deployment
