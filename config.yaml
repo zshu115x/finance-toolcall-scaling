@@ -53,16 +53,15 @@ training:
 #   local_hf: loads HuggingFace model in-process (no server; works CPU)
 #   api:      any OpenAI-compatible endpoint (vLLM, Ollama, OpenAI)
 scaling:
-  mode: "local_hf"
-  api_endpoint: "http://localhost:8000/v1"    # used only when mode=api (vLLM default)
+  mode: "api"
+  api_endpoint: "http://localhost:8080/v1"
   api_key_env: "OPENAI_API_KEY"               # used only when mode=api
-  api_model_name: null                # base variant model name; null → training.base_model
-  api_finetuned_model_name: null      # finetuned variant; null → falls back to api_model_name
-                                      # set to the --lora-modules name when using vLLM LoRA
+  api_model_name: "Qwen/Qwen2.5-1.5B-Instruct"
+  api_finetuned_model_name: "finance-lora"    # matches --lora-modules name on vLLM server
   budgets: [1, 3, 5, 10]
   max_tokens: 384               # tool calls need more tokens than plain answers
   temperature: 0.7
-  max_concurrency: 1            # local_hf: keep 1; api mode: set to 8-32
+  max_concurrency: 16           # api mode: higher concurrency safe with vLLM
   torch_dtype: "float32"        # local_hf only: "float32" (CPU) | "bfloat16" (GPU)
 
 # ── BestOfN Judge (its_hub) ───────────────────────────────────────────────

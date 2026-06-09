@@ -1,0 +1,44 @@
+
+============================================================
+ACCURACY TABLE  (overall exact-match accuracy)
+============================================================
+Variant      Algorithm              N= 1  N= 3  N= 5  N=10
+----------------------------------------------------------
+base         best_of_n              24.0%  40.0%  50.0%  58.0%
+base         self_consistency       28.0%  26.0%  26.0%  40.0%
+finetuned    best_of_n              36.0%  42.0%  46.0%  52.0%
+finetuned    self_consistency       28.0%  32.0%  34.0%  34.0%
+
+============================================================
+ITS DELTA  Δ(N) = acc(N) - acc(N=1)
+============================================================
+base         best_of_n               +0.0%  +16.0%  +26.0%  +34.0%
+base         self_consistency        +0.0%   -2.0%   -2.0%  +12.0%
+finetuned    best_of_n               +0.0%   +6.0%  +10.0%  +16.0%
+finetuned    self_consistency        +0.0%   +4.0%   +6.0%   +6.0%
+
+============================================================
+PER-PARAMETER ACCURACY  (N=1 baseline)
+============================================================
+Variant      Algorithm              company       year          report_type   quarter     
+--------------------------------------------------------------------------------
+base         best_of_n                     50.0%         64.0%         40.0%         60.0%
+base         self_consistency              46.0%         62.0%         50.0%         56.0%
+finetuned    best_of_n                     54.0%         90.0%         86.0%         88.0%
+finetuned    self_consistency              44.0%         90.0%         84.0%         86.0%
+
+============================================================
+ANALYSIS
+============================================================
+
+[SELF_CONSISTENCY]
+  Base model:       N=1 → 28.0%,  N=10 → 40.0%  (Δ=+12.0%)
+  Fine-tuned model: N=1 → 28.0%,  N=10 → 34.0%  (Δ=+6.0%)
+  → Fine-tuning has minimal N=1 effect (+0.0%)
+  → SUBSTITUTION: Fine-tuning reduces ITS benefit (base Δ=+12.0%, FT Δ=+6.0%). The model already learned to call the tool correctly; extra samples add less.
+
+[BEST_OF_N]
+  Base model:       N=1 → 24.0%,  N=10 → 58.0%  (Δ=+34.0%)
+  Fine-tuned model: N=1 → 36.0%,  N=10 → 52.0%  (Δ=+16.0%)
+  → Fine-tuning improves N=1 accuracy by +12.0%
+  → SUBSTITUTION: Fine-tuning reduces ITS benefit (base Δ=+34.0%, FT Δ=+16.0%). The model already learned to call the tool correctly; extra samples add less.
