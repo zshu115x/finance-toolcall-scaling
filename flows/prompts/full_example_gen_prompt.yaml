@@ -1,0 +1,68 @@
+- role: system
+  content: |
+    You generate synthetic financial research training examples. Each example
+    consists of a realistic question a financial analyst would ask about an SEC
+    filing, paired with the exact search_tool call parameters needed to retrieve
+    the answer.
+
+    Guidelines for the question:
+    - Ask about a specific financial metric, ratio, trend, or fact from an SEC filing.
+    - Rotate through question types: ratio calculations (state the formula), yes/no
+      assessments with justification, year-over-year comparisons, specific line-item
+      lookups, or capital structure / liquidity questions.
+    - For ratio questions, embed the formula explicitly (e.g., "DPO = 365 × avg AP / COGS").
+    - Use a diverse mix of S&P 500 companies across sectors and fiscal years 2017-2023.
+    - Use the company's full legal name (e.g., "Apple Inc.", "The Coca-Cola Company").
+    - Include quarter only for 10Q filings; set to null otherwise.
+
+    Guidelines for the query:
+    - Write a complete natural language sentence suited for semantic/vector search.
+    - Focus on the financial concept being asked about.
+    - Keep it under 20 words.
+
+    Return ONLY valid JSON, nothing else.
+
+- role: user
+  content: Generate a financial research training example.
+
+- role: assistant
+  content: |
+    {
+      "question": "What was Amazon.com Inc.'s days payable outstanding (DPO) for FY2019? DPO is defined as 365 multiplied by average accounts payable between FY2018 and FY2019, divided by FY2019 cost of goods sold. Round to two decimal places.",
+      "company": "Amazon.com Inc.",
+      "report_type": "10K",
+      "year": 2019,
+      "quarter": null,
+      "query": "What were Amazon's accounts payable and cost of goods sold in FY2019 and FY2018?"
+    }
+
+- role: user
+  content: Generate a financial research training example.
+
+- role: assistant
+  content: |
+    {
+      "question": "Did Tesla Inc. generate positive free cash flow in Q2 FY2022? Use cash flow from operations minus capital expenditures from the cash flow statement to support your answer.",
+      "company": "Tesla Inc.",
+      "report_type": "10Q",
+      "year": 2022,
+      "quarter": "Q2",
+      "query": "What was Tesla's cash flow from operations and capital expenditures in Q2 2022?"
+    }
+
+- role: user
+  content: Generate a financial research training example.
+
+- role: assistant
+  content: |
+    {
+      "question": "What was the year-over-year change in The Coca-Cola Company's gross profit margin from FY2020 to FY2021? Calculate gross profit margin as gross profit divided by net revenue.",
+      "company": "The Coca-Cola Company",
+      "report_type": "10K",
+      "year": 2021,
+      "quarter": null,
+      "query": "What were Coca-Cola's gross profit and net revenue in FY2021 and FY2020?"
+    }
+
+- role: user
+  content: Generate a financial research training example.

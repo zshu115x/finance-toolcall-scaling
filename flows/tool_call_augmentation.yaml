@@ -1,0 +1,42 @@
+metadata:
+  name: Financial Tool-Call Augmentation Flow
+  description: >
+    Given an example question and a sector variation hint, generates a structurally
+    similar question for a different company. Returns raw JSON text — Python parses
+    the JSON to extract (question, company, report_type, year, quarter, query).
+    No JSONParserBlock needed; no metadata columns required as input.
+  version: 6.0.0
+  author: Zach Shu
+  tags:
+  - finance
+  - tool-calling
+  - data-augmentation
+  license: Apache-2.0
+  dataset_requirements:
+    required_columns:
+    - question
+    - variation_hint
+  id: slow-grove-771
+blocks:
+- block_type: PromptBuilderBlock
+  block_config:
+    block_name: build_augment_prompt
+    input_cols:
+    - question
+    - variation_hint
+    output_cols: augment_prompt
+    prompt_config_path: prompts/augment_from_example.yaml
+- block_type: LLMChatBlock
+  block_config:
+    block_name: generate_example
+    input_cols: augment_prompt
+    output_cols: example_raw
+    async_mode: true
+    max_tokens: 512
+    temperature: 0.9
+- block_type: LLMResponseExtractorBlock
+  block_config:
+    block_name: extract_example
+    input_cols: example_raw
+    extract_content: true
+    expand_lists: true

@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-06-08T15:11:06.243275",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "n_train_examples": 244,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "num_epochs": 3,
+  "learning_rate": 0.0002,
+  "micro_batch_size": 1,
+  "max_seq_len": 768,
+  "sample_packing": false,
+  "bf16": false,
+  "fp16": false,
+  "logging_steps": 5,
+  "save_steps": 100,
+  "output_dir": "models/lora-finance-toolcall"
+}

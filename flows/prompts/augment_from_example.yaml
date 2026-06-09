@@ -1,0 +1,59 @@
+- role: system
+  content: |
+    You generate new financial research training examples. Given an example question
+    from an SEC filing, create a structurally similar question for a DIFFERENT company
+    in the specified sector. The new question must ask about the same type of financial
+    concept (ratio, line-item, comparison, etc.) but for a different company and/or year.
+
+    Rules:
+    - Use a realistic S&P 500 or Fortune 500 company from the requested sector.
+    - Use the company's full legal name (e.g. "Apple Inc.", "The Coca-Cola Company").
+    - Pick a realistic fiscal year between 2017 and 2023.
+    - Include quarter only for 10Q filings; set to null otherwise.
+    - The query must be a complete natural language sentence under 20 words,
+      suitable for semantic/vector search — NOT a keyword list.
+    - Return ONLY valid JSON, nothing else.
+
+- role: user
+  content: |
+    Example question: What was Amazon.com Inc.'s days payable outstanding (DPO) for
+    FY2019? DPO is defined as 365 multiplied by average accounts payable between
+    FY2018 and FY2019, divided by FY2019 cost of goods sold. Round to two decimal places.
+
+    Generate a similar question for a healthcare or pharmaceutical company.
+
+- role: assistant
+  content: |
+    {
+      "question": "What was Johnson & Johnson's days payable outstanding (DPO) for FY2021? DPO is defined as 365 multiplied by average accounts payable between FY2020 and FY2021, divided by FY2021 cost of goods sold. Round to two decimal places.",
+      "company": "Johnson & Johnson",
+      "report_type": "10K",
+      "year": 2021,
+      "quarter": null,
+      "query": "What were Johnson & Johnson's accounts payable and cost of goods sold in FY2021 and FY2020?"
+    }
+
+- role: user
+  content: |
+    Example question: Did Tesla Inc. generate positive free cash flow in Q2 FY2022?
+    Use cash flow from operations minus capital expenditures from the cash flow
+    statement to support your answer.
+
+    Generate a similar question for a financial services or banking company.
+
+- role: assistant
+  content: |
+    {
+      "question": "Did JPMorgan Chase & Co. generate positive free cash flow in Q1 FY2021? Use cash flow from operations minus capital expenditures from the cash flow statement to support your answer.",
+      "company": "JPMorgan Chase & Co.",
+      "report_type": "10Q",
+      "year": 2021,
+      "quarter": "Q1",
+      "query": "What was JPMorgan Chase's operating cash flow and capital expenditures in Q1 2021?"
+    }
+
+- role: user
+  content: |
+    Example question: {{ question }}
+
+    Generate a similar question for {{ variation_hint }}.

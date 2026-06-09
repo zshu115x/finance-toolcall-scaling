@@ -1,0 +1,41 @@
+[project]
+name = "finance-toolcall-scaling"
+version = "0.1.0"
+description = "Does LoRA fine-tuning and inference-time scaling compound or substitute for financial tool-calling?"
+requires-python = ">=3.11"
+dependencies = [
+    # Red Hat ML libraries
+    "sdg_hub",
+    "training_hub[lora]",
+    "its_hub[lm]",
+    # Model loading & fine-tuning
+    "transformers>=4.40.0",
+    "peft>=0.10.0",
+    "torch>=2.1.0",
+    "accelerate>=0.27.0",
+    "unsloth",
+    # Data handling
+    "datasets>=2.18.0",
+    "pandas>=2.0.0",
+    "pyarrow>=14.0.0",
+    # Visualization & analysis
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    # Config & utilities
+    "pyyaml>=6.0",
+]
+
+[tool.uv]
+package = false
+# xformers requires OpenMP which macOS clang does not support.
+# Unsloth falls back gracefully when xformers is absent.
+# opentelemetry-proto <1.12 ships pb2 files generated with old protoc; incompatible with protobuf 4+.
+override-dependencies = [
+    "xformers; sys_platform == 'linux'",
+    "opentelemetry-proto>=1.20.0",
+]
+
+[tool.uv.sources]
+sdg_hub = { path = "../sdg_hub", editable = true }
+training_hub = { path = "../training_hub", editable = true }
+its_hub = { path = "../its_hub", editable = true }

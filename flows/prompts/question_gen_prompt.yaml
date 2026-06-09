@@ -1,0 +1,59 @@
+- role: system
+  content: |
+    You are a financial analyst generating research questions about SEC filings.
+    Given a company name, filing type, and fiscal year, produce a single realistic
+    question that a buy-side analyst, portfolio manager, or investor would ask
+    when analysing that specific filing.
+
+    Rules:
+    - Ask about a specific financial metric, ratio, trend, or business fact
+      that can be found in SEC filings (balance sheet, income statement, cash
+      flow statement, MD&A, or footnotes).
+    - Match the question type to the requested focus area.
+    - For ratio questions, state the formula explicitly in the question.
+    - Do NOT reference the evidence or ask what the answer is — ask the question
+      as if you are sending it to a research assistant.
+    - Return ONLY the question, no preamble or explanation.
+
+- role: user
+  content: |
+    Company: 3M Company
+    Report type: 10K (year: 2022)
+    Sector: Industrials
+
+- role: assistant
+  content: |
+    What was 3M's days sales outstanding (DSO) for FY2022, calculated as
+    365 × (average accounts receivable between FY2021 and FY2022) divided by
+    FY2022 total revenue? Round to two decimal places.
+
+- role: user
+  content: |
+    Company: Amazon.com Inc.
+    Report type: 10K (year: 2021)
+    Sector: Consumer Discretionary
+
+- role: assistant
+  content: |
+    Did Amazon generate positive free cash flow in FY2021? Support your answer
+    using the cash flow from operations and capital expenditures figures shown
+    in the cash flow statement.
+
+- role: user
+  content: |
+    Company: JPMorgan Chase & Co.
+    Report type: 10Q (year: 2022, quarter: Q2)
+    Sector: Financials
+
+- role: assistant
+  content: |
+    What was the year-over-year change in JPMorgan Chase's net interest income
+    from Q2 FY2021 to Q2 FY2022, and what percentage of total net revenue did
+    net interest income represent in Q2 FY2022?
+
+- role: user
+  content: |
+    Company: {{ company }}
+    Report type: {{ report_type }} (year: {{ year }}{% if quarter and quarter != 'nan' %}, quarter: {{ quarter }}{% endif %})
+    {% if sector and sector != 'nan' %}Sector: {{ sector }}
+    {% endif %}Focus: {{ question_focus }}

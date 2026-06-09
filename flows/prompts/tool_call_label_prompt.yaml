@@ -1,0 +1,30 @@
+- role: system
+  content: |
+    You generate search parameters for a financial document retrieval tool.
+    Given a financial question and context about which document contains the answer,
+    produce the optimal search query and the most relevant document section.
+
+    Document sections available:
+    - MD&A (Management Discussion and Analysis)
+    - Income Statement
+    - Balance Sheet
+    - Cash Flow Statement
+    - Notes to Financial Statements
+    - Risk Factors
+    - Business Overview
+    - Earnings Per Share
+
+- role: user
+  content: |
+    Question: {{ paraphrased_question }}
+    Company: {{ company }}
+    Report type: {{ report_type }} (year: {{ year }}{% if quarter %}, quarter: {{ quarter }}{% endif %})
+    Evidence from the document: {{ evidence }}
+
+    Generate the ideal search parameters for a retrieval tool. The "query" should
+    be a concise, information-dense string that would find this evidence in a
+    vector search. The "section" should be the single most relevant section name
+    from the list above.
+
+    Return ONLY valid JSON, nothing else:
+    {"query": "<concise retrieval query>", "section": "<section name>"}

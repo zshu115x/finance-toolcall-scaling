@@ -1,0 +1,275 @@
+{
+  "base": {
+    "self_consistency": {
+      "1": [
+        {
+          "question": "Does Corning have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "Corning FY2022 working capital",
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": true,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": true
+          }
+        },
+        {
+          "question": "What is Amazon's FY2017 days payable outstanding (DPO)? DPO is defined as: 365 * (average accounts payable between FY2016 and FY2017) / (FY2017 COGS + change in inventory between FY2016 and FY2017). Round your answer to two decimal places. Address the question by using the line items and information shown within the balance sheet and the P&L statement.",
+          "gold": {
+            "company": "Amazon",
+            "report_type": "10K",
+            "year": 2017,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "Amazon FY2017 DPO",
+            "company": "AMZN",
+            "report_type": "10K",
+            "year": 2017
+          },
+          "scores": {
+            "company": false,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": false
+          }
+        },
+        {
+          "question": "Does Paypal have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Paypal",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "positive working capital",
+            "company": "Paypal",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": true,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": true
+          }
+        }
+      ],
+      "3": [
+        {
+          "question": "Does Corning have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "Corning FY2022 working capital",
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": true,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": true
+          }
+        },
+        {
+          "question": "What is Amazon's FY2017 days payable outstanding (DPO)? DPO is defined as: 365 * (average accounts payable between FY2016 and FY2017) / (FY2017 COGS + change in inventory between FY2016 and FY2017). Round your answer to two decimal places. Address the question by using the line items and information shown within the balance sheet and the P&L statement.",
+          "gold": {
+            "company": "Amazon",
+            "report_type": "10K",
+            "year": 2017,
+            "quarter": "nan"
+          },
+          "predicted": null,
+          "scores": {
+            "company": false,
+            "year": false,
+            "report_type": false,
+            "quarter": false,
+            "overall": false
+          }
+        },
+        {
+          "question": "Does Paypal have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Paypal",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "positive working capital",
+            "company": "Paypal Holdings LP",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": false,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": false
+          }
+        }
+      ]
+    },
+    "best_of_n": {
+      "1": [
+        {
+          "question": "Does Corning have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "positive working capital",
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": true,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": true
+          }
+        },
+        {
+          "question": "What is Amazon's FY2017 days payable outstanding (DPO)? DPO is defined as: 365 * (average accounts payable between FY2016 and FY2017) / (FY2017 COGS + change in inventory between FY2016 and FY2017). Round your answer to two decimal places. Address the question by using the line items and information shown within the balance sheet and the P&L statement.",
+          "gold": {
+            "company": "Amazon",
+            "report_type": "10K",
+            "year": 2017,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "Amazon FY2017 DPO",
+            "company": "AMZN",
+            "report_type": "10K",
+            "year": 2017
+          },
+          "scores": {
+            "company": false,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": false
+          }
+        },
+        {
+          "question": "Does Paypal have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Paypal",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "positive working capital Paypal FY2022",
+            "company": "Paypal Holdings LP",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": false,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": false
+          }
+        }
+      ],
+      "3": [
+        {
+          "question": "Does Corning have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "Corning FY2022 working capital",
+            "company": "Corning",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": true,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": true
+          }
+        },
+        {
+          "question": "What is Amazon's FY2017 days payable outstanding (DPO)? DPO is defined as: 365 * (average accounts payable between FY2016 and FY2017) / (FY2017 COGS + change in inventory between FY2016 and FY2017). Round your answer to two decimal places. Address the question by using the line items and information shown within the balance sheet and the P&L statement.",
+          "gold": {
+            "company": "Amazon",
+            "report_type": "10K",
+            "year": 2017,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "Amazon Days Payable Outstanding FY2017",
+            "company": "AMZN",
+            "report_type": "10K",
+            "year": 2017
+          },
+          "scores": {
+            "company": false,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": false
+          }
+        },
+        {
+          "question": "Does Paypal have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+          "gold": {
+            "company": "Paypal",
+            "report_type": "10K",
+            "year": 2022,
+            "quarter": "nan"
+          },
+          "predicted": {
+            "query": "positive working capital Paypal FY2022",
+            "company": "PayPal",
+            "report_type": "10K",
+            "year": 2022
+          },
+          "scores": {
+            "company": true,
+            "year": true,
+            "report_type": true,
+            "quarter": true,
+            "overall": true
+          }
+        }
+      ]
+    }
+  }
+}
